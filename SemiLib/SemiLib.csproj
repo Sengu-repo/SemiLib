@@ -46,6 +46,11 @@
     <Compile Include="EAPManager.cs" />
     <Compile Include="EAP\Config.cs" />
     <Compile Include="EAP\Helper.cs" />
+    <Compile Include="Code%27s\Error.cs" />
+    <Compile Include="EventArgs\ConnectedEventArgs.cs" />
+    <Compile Include="EventArgs\StatusEventArgs.cs" />
+    <Compile Include="EventArgs\ReceivedEventArgs.cs" />
+    <Compile Include="EventArgs\ErrorEventArgs.cs" />
     <Compile Include="Exception\ClientNullException.cs" />
     <Compile Include="Exception\ConfigNullException.cs" />
     <Compile Include="Exception\SendNullException.cs" />

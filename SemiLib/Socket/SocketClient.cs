@@ -13,12 +13,20 @@ namespace Semi.Socket
     public class SocketClient
     {
 
+        #region EventHandler
+
+        public EventHandler<ErrorEventArgs> ErrorEventHandler;
+ 
+        public EventHandler<ReceivedEventArgs> ReceivedEventHandler;
+
+        public EventHandler<StatusEventArgs> StatusEventHandler;
+        #endregion
+
         public SocketClient(Config _config)
         {
             this.config = _config;
         }
 
-        #region Setup
         private bool setup()
         {
             if (this.config != null)
@@ -60,7 +68,6 @@ namespace Semi.Socket
 
             throw new ConfigNullException(string.Format("Setup.Config: Null Reference Object"));      
         }
-        #endregion
 
         public async Task Connect()
         {
@@ -70,8 +77,7 @@ namespace Semi.Socket
             }
             catch (Exception ex)
             {
-
-                throw new SetupException(ex.ToString());
+                OnErrorEventHandler(new ErrorEventArgs(ex.ToString(), (uint)E_CODE.SOCKET_CONNECT_CONFIG));
             }
 
             if (this.client == null)
@@ -93,17 +99,21 @@ namespace Semi.Socket
 
                     Debug.WriteLine("TimeOuException");
 
-                    throw new TimeoutException();
+                    OnErrorEventHandler(new ErrorEventArgs("Server connecting task time out", (uint)E_CODE.SOCKET_CONNECT_TIMEOUT));
                 }
+
+                OnStatusEvent(new StatusEventArgs(true));
+
+                await ReadAsync(client);
 
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.ToString());
+                OnErrorEventHandler(new ErrorEventArgs(ex.ToString(), (uint)E_CODE.SOCKET_CONNECT_NULL));
             }
         }
 
-        public async Task Send(string message)
+        public async Task SendAsync(string message)
         {
             if (string.IsNullOrEmpty(message)) throw new SendNullException();
 
@@ -122,12 +132,86 @@ namespace Semi.Socket
                 {
                     Debug.WriteLine(string.Format("Message was unsuccessful send to Server: {0}", "Time Out Error"));
 
-                    throw new TimeoutException();
+                    OnErrorEventHandler(new ErrorEventArgs("Message send task time out", (uint)E_CODE.SOCKET_SEND_TIMEOUT));
                 }
 
                 Debug.WriteLine(string.Format("Message was successfully send to Server:{0}", message));
+
+
             }
         }
+
+        public async Task ReadAsync(TcpClient _client)
+        {
+            try
+            {
+                System.IO.StreamReader rd = new StreamReader(_client.GetStream());
+
+                char[] buff = new char[config.BuffSize];
+
+                int readByteCount = 0;
+
+                while (true)
+                {
+                    readByteCount = await rd.ReadAsync(buff, 0, buff.Length);
+
+                    if (readByteCount <= 0)
+                    {
+                        if (client != null)
+                        {
+                            client.Close();
+                        }
+                        this.OnStatusEvent(new StatusEventArgs(false));
+
+                        break;
+                    }
+
+                    OnReceivedEventHandler(new ReceivedEventArgs(new string(buff)));
+
+                    Array.Clear(buff, 0, buff.Length);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                OnErrorEventHandler(new ErrorEventArgs(ex.ToString(), (uint)E_CODE.SOCKET_RECEIVE_MESSAGE));
+            }
+        }
+
+        #region Event Handler Method
+
+        protected virtual void OnReceivedEventHandler(ReceivedEventArgs _args)
+        {
+            EventHandler<ReceivedEventArgs> handler = ReceivedEventHandler;
+
+            if (handler != null)
+            {
+                handler(this, _args);
+            }
+
+        }
+
+        protected virtual void OnStatusEvent(StatusEventArgs _args)
+        {
+            EventHandler<StatusEventArgs> handler = StatusEventHandler;
+
+            if (handler != null)
+            {
+                handler(this, _args);
+            }
+
+        }
+
+        protected virtual void OnErrorEventHandler(ErrorEventArgs _args)
+        {
+            EventHandler<ErrorEventArgs> handler = ErrorEventHandler;
+
+            if (handler != null)
+            {
+                handler(this, _args);
+            }
+        }
+        #endregion
 
         #region Private instance 
 

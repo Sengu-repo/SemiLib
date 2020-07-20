@@ -24,7 +24,9 @@ namespace Semi.EAP
         /// </summary>
         public int BuffSize { get { return buffSize; } set { buffSize = value; } }
 
-
+        /// <summary>
+        /// Conncection time out
+        /// </summary>
         public int TimeOut { get { return timeOut; } set { timeOut = value; } }
 
 

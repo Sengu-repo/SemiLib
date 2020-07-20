@@ -22,6 +22,21 @@ namespace Demo
             InitializeComponent();
 
             _EAPManager = new EAPManager();
+
+            _EAPManager.ErrorEventHandler += ManagerErrorEventReceived;
+
+            _EAPManager.ReceivedEventHandler += MangerTextReceivedEvent;
+
+        }
+
+        public void ManagerErrorEventReceived(object sender, ErrorEventArgs args)
+        {
+            MessageBox.Show("Message" + args.Message, "Code:" + args.Code.ToString());
+        }
+
+        public void MangerTextReceivedEvent(object sender, ReceivedEventArgs args)
+        {
+            txtCosoleLog.AppendText(string.Format("{0} - Received: {1}.{2}", DateTime.Now, args.Message, Environment.NewLine));
         }
 
         void updateConnectionStatus(bool value)
