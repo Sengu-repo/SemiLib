@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Semi.Report
 {
-    public struct StatuChangeReport
+    public class StatuChangeReport : IReport
     {
         public string EqpID { get; set; }
 

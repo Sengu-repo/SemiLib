@@ -16,11 +16,11 @@ namespace Semi.Socket
         #region EventHandler
 
         public EventHandler<ErrorEventArgs> ErrorEventHandler;
- 
         public EventHandler<ReceivedEventArgs> ReceivedEventHandler;
-
         public EventHandler<StatusEventArgs> StatusEventHandler;
         #endregion
+
+        public bool Connected { get { return client != null ? client.Connected : false; } }
 
         public SocketClient(Config _config)
         {
@@ -34,6 +34,7 @@ namespace Semi.Socket
                 try
                 {
                     // Server IP Addreess
+                    //
                     IPAddress ip = null;
 
                     if (!IPAddress.TryParse(this.config.IP, out ip))
@@ -89,16 +90,21 @@ namespace Semi.Socket
 
             try
             {
-               await await Task.WhenAny(this.client.ConnectAsync(this.ipAddress, this.port), taskTimeOut);
+                if (this.client.Connected) return;
+#if DEBUG
+                System.Diagnostics.Debug.WriteLine("Socket connection establish.....");
+#endif
+                await await Task.WhenAny(this.client.ConnectAsync(this.ipAddress, this.port), taskTimeOut);
 
                 if (taskTimeOut.IsCompleted)
                 {
+#if DEBUG
                     Debug.WriteLine("Waiting Task Start");
 
                     Task.Delay(3000).Wait();
 
                     Debug.WriteLine("TimeOuException");
-
+#endif
                     OnErrorEventHandler(new ErrorEventArgs("Server connecting task time out", (uint)E_CODE.SOCKET_CONNECT_TIMEOUT));
                 }
 
@@ -110,6 +116,24 @@ namespace Semi.Socket
             catch (Exception ex)
             {
                 OnErrorEventHandler(new ErrorEventArgs(ex.ToString(), (uint)E_CODE.SOCKET_CONNECT_NULL));
+            }
+        }
+
+        public void Disconnect()
+        {
+            try
+            {
+                if (client != null)
+                {
+                    if (client.Connected)
+                    {
+                        client.Close();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                OnErrorEventHandler(new ErrorEventArgs(ex.ToString(), (uint)E_CODE.SOCKET_DISCONNECT));
             }
         }
 
@@ -136,8 +160,7 @@ namespace Semi.Socket
                 }
 
                 Debug.WriteLine(string.Format("Message was successfully send to Server:{0}", message));
-
-
+                
             }
         }
 

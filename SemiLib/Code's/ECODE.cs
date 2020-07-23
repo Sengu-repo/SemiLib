@@ -29,6 +29,8 @@ namespace Semi
         [Description("Socket Send Time Out")]
         SOCKET_SEND_TIMEOUT = 0x000044F,
         [Description("Socket Receive")]
-        SOCKET_RECEIVE_MESSAGE = 0x0000450
+        SOCKET_RECEIVE_MESSAGE = 0x0000450,
+        [Description("Socket Disconnect")]
+        SOCKET_DISCONNECT = 0x0000451
     }
 }

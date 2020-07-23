@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Semi.Report
 {
-    public struct AlarmReport
+    public class AlarmReport : IReport
     {
         public string EqpID { get => eqpId; set => eqpId = value; }
 
@@ -16,6 +16,6 @@ namespace Semi.Report
 
         public string AlarmMessage { get; set; }
 
-        private string eqpId;
+        public string eqpId;
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Semi.Receive
 {
-    public struct RecipeUnload
+    public class RecipeUnload : IReceive
     {
         public string EqpID { get => this.eqpID; set => this.eqpID = value; }
 

@@ -4,14 +4,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Semi.Reply
+namespace Semi.Model
 {
+
+    public enum MESSAGE_TYPE
+    {
+        REQUEST,
+        RESPONSE
+    }
+
     #region Reply
-    public struct Message
+    public struct RequestMessage
     {
         public Request Request;
     }
     #endregion
+
+    public struct ResponseMessage
+    {
+        public Response Response;
+    }
 
     /// <summary>
     /// Request Message
@@ -20,7 +32,23 @@ namespace Semi.Reply
     {
         public Header Header;
 
-        public Body Body;
+        // Body Object 
+        //
+        public object Body;
+    }
+
+    /// <summary>
+    /// Request Message
+    /// </summary>
+    public struct Response
+    {
+        public Header Header;
+
+        // Body Object 
+        //
+        public object Body;
+
+        public Return Return;
     }
 
     /// <summary>
@@ -50,17 +78,6 @@ namespace Semi.Reply
     }
 
     /// <summary>
-    /// Message body
-    /// </summary>
-    public struct Body
-    {
-        /// <summary>
-        /// body object
-        /// </summary>
-        public object body;
-    }
-
-    /// <summary>
     /// Message Reutrn Code
     /// </summary>
     public struct Return
@@ -71,5 +88,15 @@ namespace Semi.Reply
         public string ReturnCode;
 
         public string ReturnMessage;
+    }
+
+    public struct ReturnBody
+    {
+        public string EqpID;
+
+        public ReturnBody(string _id)
+        {
+            this.EqpID = _id;
+        }
     }
 }

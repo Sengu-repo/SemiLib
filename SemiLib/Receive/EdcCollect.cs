@@ -9,11 +9,9 @@ namespace Semi.Receive
     /// <summary>
     /// 设备参数采集
     /// </summary>
-    public struct EdcCollect
+    public class EdcCollect : IReceive
     {
         public string EqpID { get => this.eqpID; set => this.eqpID = value; }
-
-
 
         string eqpID;
     }
@@ -21,7 +19,7 @@ namespace Semi.Receive
     /// <summary>
     /// Edc Collect Receive Parameter
     /// </summary>
-    public struct ReceiveParam {
+    public class ReceiveParam {
 
         public string Name { get; set; }
 

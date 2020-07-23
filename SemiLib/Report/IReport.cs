@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Semi.Request
-{ 
-
-
+namespace Semi.Report
+{
+    public interface IReport
+    {
+        string EqpID { get; set; }
+    }
 }

@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Semi.Request
-{ 
-
-
+namespace Semi.Receive
+{
+    interface IReceive
+    {
+        string EqpID { get; set; }
+    }
 }

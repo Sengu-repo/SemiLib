@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Semi.Receive
 {
-    public struct SyncTime
+    public class SyncTime : IReceive
     {
         public string EqpID { get => this.eqpID; set => this.eqpID = value; }
 

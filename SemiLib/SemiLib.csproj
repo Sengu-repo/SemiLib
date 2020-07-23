@@ -43,21 +43,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EAPManager.cs" />
+    <Compile Include="Data\Enum.cs" />
+    <Compile Include="EventSubscription\SendEventArgs.cs" />
+    <Compile Include="Exception\ObjectValidationException.cs" />
+    <Compile Include="JSON\SemiJSONHelper.cs" />
+    <Compile Include="Receive\IReceive.cs" />
+    <Compile Include="Receive\Process.cs" />
+    <Compile Include="Report\IReport.cs" />
+    <Compile Include="SemiManager.cs" />
     <Compile Include="EAP\Config.cs" />
     <Compile Include="EAP\Helper.cs" />
-    <Compile Include="Code%27s\Error.cs" />
-    <Compile Include="EventArgs\ConnectedEventArgs.cs" />
-    <Compile Include="EventArgs\StatusEventArgs.cs" />
-    <Compile Include="EventArgs\ReceivedEventArgs.cs" />
-    <Compile Include="EventArgs\ErrorEventArgs.cs" />
+    <Compile Include="Code%27s\ECODE.cs" />
+    <Compile Include="EventSubscription\ConnectedEventArgs.cs" />
+    <Compile Include="EventSubscription\StatusEventArgs.cs" />
+    <Compile Include="EventSubscription\ReceivedEventArgs.cs" />
+    <Compile Include="EventSubscription\ErrorEventArgs.cs" />
     <Compile Include="Exception\ClientNullException.cs" />
     <Compile Include="Exception\ConfigNullException.cs" />
     <Compile Include="Exception\SendNullException.cs" />
     <Compile Include="Exception\SetupException.cs" />
-    <Compile Include="Receive\Type.cs" />
-    <Compile Include="Reply\Message.cs" />
-    <Compile Include="Report\Type.cs" />
+    <Compile Include="Receive\Enum.cs" />
+    <Compile Include="Model\Message.cs" />
+    <Compile Include="Report\Enum.cs" />
     <Compile Include="Request\Message.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Receive\EdcCollect.cs" />
@@ -69,7 +76,9 @@
     <Compile Include="Report\AlarmReport.cs" />
     <Compile Include="Report\EdcReport.cs" />
     <Compile Include="Report\StatuChangeReport.cs" />
+    <Compile Include="Socket\MessageQueue.cs" />
     <Compile Include="Socket\SocketClient.cs" />
+    <Compile Include="JSON\Validation.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
