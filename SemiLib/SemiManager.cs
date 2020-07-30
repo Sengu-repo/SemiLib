@@ -18,10 +18,10 @@ namespace Semi
 
         Socket.SocketClient client;
 
+        Receive.Process rxProcess;
+
         public EventHandler<ErrorEventArgs> ErrorEventHandler;
 
-        // for tesing
-        //
         public EventHandler<ReceivedEventArgs> ReceivedEventHandler;
 
         public EventHandler<SendEventArgs> SendEventHandler;
@@ -80,7 +80,9 @@ namespace Semi
                 client.StatusEventHandler += StatusEventReceived;
 
                 client.Connect();
-            
+
+                rxProcess = new Receive.Process();
+
                 return true;
             }
             catch (Exception ex)
@@ -200,9 +202,14 @@ namespace Semi
 
         private void ReceivedEvent(object sender, ReceivedEventArgs args)
         {
-            System.Diagnostics.Debug.WriteLine("Received: "+ args.Message);
 
-            // For testing
+            if (rxProcess != null)
+            {
+                if (args.Message == null) return;
+
+                   rxProcess.GetReply(args.Message);
+            }
+
             OnReceiveEvent(new ReceivedEventArgs(args.Message));
         }
 

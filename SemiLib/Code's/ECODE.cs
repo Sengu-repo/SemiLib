@@ -31,6 +31,15 @@ namespace Semi
         [Description("Socket Receive")]
         SOCKET_RECEIVE_MESSAGE = 0x0000450,
         [Description("Socket Disconnect")]
-        SOCKET_DISCONNECT = 0x0000451
+        SOCKET_DISCONNECT = 0x0000451,
+
+        // JSON Validation
+        //
+        [Description("JSON Message validation failed")]
+        JSON_MSG_VALIDATION_FAILED = 0x000047E,
+        [Description("JSON Message body validation failed")]
+        JSON_MSG_BODY_VALIDATION_FAILED = 0x000047F,
+        [Description("JSON Message request object failed")]
+        JSON_REQ_OBJECT_FAILED = 0x0000480,
     }
 }

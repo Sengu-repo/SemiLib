@@ -28,8 +28,7 @@ namespace Semi
             }
             catch (Exception ex)
             {
-
-                throw;
+                throw new Exception(E_CODE.JSON_MSG_VALIDATION_FAILED.ToString() + ":" + ex.Message);
             }
 
         }
@@ -45,9 +44,9 @@ namespace Semi
                     callback(obj, _header);
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                return;
+                throw new Exception(E_CODE.JSON_MSG_BODY_VALIDATION_FAILED.ToString() + ":" + ex.Message);
             }
         }
 
@@ -65,9 +64,9 @@ namespace Semi
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                return;
+                throw new Exception(E_CODE.JSON_REQ_OBJECT_FAILED.ToString() + ":" + ex.Message);
             }
         }
 

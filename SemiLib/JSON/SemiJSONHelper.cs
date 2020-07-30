@@ -16,7 +16,7 @@ namespace Semi
 {
     internal static class SemiJSONHelper
     {
-        public static string GetString<T>(T _obj, Model.Header _head, MESSAGE_TYPE _type,string _eqpID)
+        public static string GetString<T>(T _obj, Model.Header _head, MESSAGE_TYPE _type, string _eqpID)
         {
             try
             {
@@ -28,7 +28,7 @@ namespace Semi
 
                     case MESSAGE_TYPE.RESPONSE:
 
-                        return requestResponseMessage( _head, _eqpID);
+                        return reponseMessage( _head, _eqpID);
                 }
                 return string.Empty;
             }
@@ -45,11 +45,15 @@ namespace Semi
                 if (_obj is StatuChangeReport)
                 {
                     var obj = _obj as StatuChangeReport;
+
+                    sendReport(obj, _head);
+
                 }
                 else if (_obj is AlarmReport)
                 {
                     var obj = _obj as AlarmReport;
                 }
+
             }
             catch (Exception ex)
             {
@@ -59,7 +63,9 @@ namespace Semi
             return string.Empty;
         }
 
-        private static string statusChangeReport(Report.StatuChangeReport _report, Model.Header _header)
+        #region Report 
+
+        private static string sendReport(object _report, Model.Header _header)
         {
             try
             {
@@ -80,8 +86,11 @@ namespace Semi
                 throw new Exception(ex.ToString());
             }
         }
+        #endregion
 
-        private static string requestResponseMessage(Header _header,string _eqpID)
+        #region Response
+
+        private static string reponseMessage(Header _header,string _eqpID)
         {
             string msg = string.Empty;
 
@@ -99,6 +108,7 @@ namespace Semi
 
             return msg;
         }
+        #endregion
 
     }
 }
